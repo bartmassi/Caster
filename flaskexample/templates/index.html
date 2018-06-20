@@ -1,0 +1,28 @@
+<html>
+	<head>
+		<title>Caster</title>
+	</head>
+
+	<h2>podcast search engine</h2>
+	
+	{% with messages = get_flashed_messages() %}
+	  {% if messages %}
+		<ul white-space: pre-wrap; class=flashes>
+		{% for message in messages %}
+			{% autoescape false %}
+			<p>{{ message }}</p>
+			{% endautoescape %}
+		{% endfor %}
+		</ul>
+	  {% endif %}
+	{% endwith %}
+	
+	{% from "_formhelpers.html" import render_field %}
+	<form method=post>
+		<dl>
+			{{ render_field(form.search) }}
+		</dl>
+		<p><input type=submit value=Search>
+	</form>
+    
+</html>
