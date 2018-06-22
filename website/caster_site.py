@@ -11,8 +11,6 @@ from newspaper import Article
 #from sqlite3 import dbapi2 as sqlite
 
 print('hello world')
-app = dash.Dash()
-app.title = 'NewsCast'
 
 #%%
 #These functions handle user input. 
@@ -74,6 +72,8 @@ app.layout = html.Div([html.Div(dcc.Markdown('*NewsCast: use articles to find po
     html.Div(id='output-container-button',
              children='Paste a link to a news article!',style={'horizontal-align': 'left'})
 ],style={'textAlign':"left","vertical-align":"left"})
+server = app.server
+app.title = "NewsCast
 
 
 @app.callback(
@@ -104,4 +104,4 @@ def update_output(n_clicks, value):
                         ]))
     return output_table
 if __name__ == '__main__':
-    app.run_server(debug=True,use_reloader=False)
+    app.run(debug=True,use_reloader=False,host='0.0.0.0',port=5000)
