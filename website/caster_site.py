@@ -21,7 +21,9 @@ app.title = 'NewsCast'
 def checkIfURL(url):
     return True
 
-def generateArticleInput(url,title_only=True):
+#This fetches the article information from the URL using the newspaper package.
+#title_only flag controls whether embeddings are evaluated on entire article body, or just title.
+def generateArticleInput(url,title_only=False):
     
     if(not checkIfURL(url)):
         raise ValueError("'%s' is not a valid URL!" % url)
@@ -35,15 +37,16 @@ def generateArticleInput(url,title_only=True):
     else:
         return article.text
     
-#This function formats the recommended episodes properly.
-def formatOutput(output):
-    outstr = ''
-    for i in range(0,len(output[1])):
-        outstr += '\n\n[**'+output[0].iloc[i]['collectionName']+'**](' + output[0].iloc[i]['feedUrl']+ ')\n'
-        for j in range(0,len(output[1][i])):
-            outstr += '\n*' + output[1][i][j].title + '*: ' + cleaner.remove_html_tags(output[1][i][j].summary_detail.value) + '\n'
-            
-    return outstr
+##This function formats the recommended episodes properly.
+##No longer in use. 
+#def formatOutput(output):
+#    outstr = ''
+#    for i in range(0,len(output[1])):
+#        outstr += '\n\n[**'+output[0].iloc[i]['collectionName']+'**](' + output[0].iloc[i]['feedUrl']+ ')\n'
+#        for j in range(0,len(output[1][i])):
+#            outstr += '\n*' + output[1][i][j].title + '*: ' + cleaner.remove_html_tags(output[1][i][j].summary_detail.value) + '\n'
+#            
+#    return outstr
 #%%
 #Setup the podcast database information
 
@@ -69,8 +72,8 @@ app.layout = html.Div([html.Div(dcc.Markdown('*NewsCast: use articles to find po
     html.Div(dcc.Input(id='input-box', type='text')),
     html.Button('Submit', id='button',style={'horizontal-align': 'middle'}),
     html.Div(id='output-container-button',
-             children='Paste a link to a news article!',style={'horizontal-align': 'middle'})
-],style={'textAlign':"center","vertical-align":"middle"})
+             children='Paste a link to a news article!',style={'horizontal-align': 'left'})
+],style={'textAlign':"left","vertical-align":"left"})
 
 
 @app.callback(
@@ -83,6 +86,8 @@ app.layout = html.Div([html.Div(dcc.Markdown('*NewsCast: use articles to find po
 #    return dcc.Markdown(
 #            formatOutput(podcastdb.search_episodes(generateArticleInput(value)))
 #            )
+
+#This function returns the episodes formatted in a pretty(ish) way. 
 def update_output(n_clicks, value):
     output = podcastdb.search_episodes(generateArticleInput(value))
     
@@ -92,11 +97,10 @@ def update_output(n_clicks, value):
         intermediate_table = []
         intermediate_table.append(html.Th(dcc.Markdown('[**'+output[0].iloc[i]['collectionName']+'**]('+output[0].iloc[i]['feedUrl']+')')))
         for j in range(0,len(output[1][i])):
-            #intermediate_table.append(html.Tr([html.Td(output[1][i][j].title),html.Tr(html.Td(cleaner.prepare(output[1][i][j].summary_detail.value)))]))
-            intermediate_table.append(html.Tr([html.Td(output[1][i][j].title,style={'text-align':'left'}),html.Td(cleaner.prepare(output[1][i][j].summary_detail.value),style={'text-align':'left'})]))
+            intermediate_table.append(html.Tr(html.Td(dcc.Markdown('['+output[1][i][j].title + '](' + output[1][i][j].links[1].href +')'),style={'text-align':'left'})))
         output_table.append(html.Div([
-                        html.Div(html.Img(src=output[0].iloc[i]['artworkUrl600'],style={'width': '100%', 'display': 'inline-block'}),style={'width': '15%', 'display': 'inline-block'}),
-                        html.Div(html.Table(intermediate_table,style={'border':'2px solid black', 'border-radius':'8px'}),style={'max-width': '84%', 'display': 'inline-block'})
+                        html.Div(html.Img(src=output[0].iloc[i]['artworkUrl600'],style={'width': '100%', 'display': 'inline-block'}),style={'width': '15%', 'display': 'inline-block','vertical-align':'middle'}),
+                        html.Div(html.Table(intermediate_table,style={'border':'2px solid black', 'border-radius':'8px'}),style={'max-width': '84%', 'display': 'inline-block','vertical-align':'middle'})
                         ]))
     return output_table
 if __name__ == '__main__':
