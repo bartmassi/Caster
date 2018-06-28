@@ -69,7 +69,7 @@ print('Model loaded!')
 #%%
 #Render website structures. 
 app = dash.Dash()
-app.layout = html.Div([html.Div(dcc.Markdown('**Caster**: use articles to find podcasts'),style={'font-size':"32"}),
+app.layout = html.Div([html.Div(dcc.Markdown('**Caster**: link articles to discover podcasts!'),style={'font-size':"32"}),
     html.Div(dcc.Input(id='input-box', type='text')),
     html.Button('Submit', id='button',style={'horizontal-align': 'middle'}),
     html.Div(id='output-container-button',
@@ -101,7 +101,7 @@ def update_output(n_clicks,value):
         try:
             article_text = generateArticleInput(value)
         except:
-            return('Input must be a link to an article!')
+            return('Paste a link to a news article!')
             
         output = podcastdb.search_episodes(article_text,verbose=False)
     
@@ -120,7 +120,7 @@ def update_output(n_clicks,value):
                                            html.Td(dcc.Markdown('['+podcast_title[0:MAX_CHARACTER_DISPLAY]+']('+podcast_url+')'),style={'align':'left','text-align':'left'})
                                            ]))
         intermediate_table.append(html.Tr([html.Td(dcc.Markdown('**Caster Score**'),style={'text-align':'left'}),
-                                           html.Td(dcc.Markdown('%s to your article (%.2f).' % (sim_score_statement,sim_score)),style={'align':'left','text-align':'left'})
+                                           html.Td(dcc.Markdown('%s to your article.' % sim_score_statement),style={'align':'left','text-align':'left'})
                                            ]))
         
     #Add episode information to output table.

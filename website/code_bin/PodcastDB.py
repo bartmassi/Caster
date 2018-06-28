@@ -11,7 +11,7 @@ from matplotlib import pyplot as plt, rcParams
 rcParams.update({'font.size': 15})
 from nltk.corpus import stopwords
 import feedparser as fp
-from code_bin import Cleaner
+from . import Cleaner
 
 class PodcastDB:
     #static class variables
