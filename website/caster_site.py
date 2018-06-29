@@ -12,7 +12,7 @@ import pickle
 
 MAX_CHARACTER_DISPLAY = 80#Maximum number of characters to display in podcast episode title, or podcast title.
 NUM_CHARACTER_DISPLAY = 95#Size of episode title string, including padding.
-
+cached_url = 'https://www.cbinsights.com/research/report/amazon-across-financial-services-fintech/'
 #%%
 
 #This fetches the article information from the URL using the newspaper package.
@@ -70,13 +70,14 @@ print('Model loaded!')
 #Render website structures. 
 app = dash.Dash()
 app.layout = html.Div([html.Div(dcc.Markdown('**Caster**: link articles to discover podcasts!'),style={'font-size':"32"}),
-    html.Div(dcc.Input(id='input-box', type='text')),
+    html.Div(dcc.Input(id='input-box', type='text',value=cached_url)),
     html.Button('Submit', id='button',style={'horizontal-align': 'middle'}),
     html.Div(id='output-container-button',
              children='Paste a link to a news article!',style={'horizontal-align': 'left'})
 ],style={'textAlign':"left","vertical-align":"left"})
 server = app.server
 app.title = "Caster"
+app.css.append_css({"external_url": "https://codepen.io/chriddyp/pen/brPBPO.css"})
 
 #This controls how the button interacts with user input.
 @app.callback(
@@ -93,7 +94,10 @@ app.title = "Caster"
 #The call to the model is at the very top.
 def update_output(n_clicks,value):
     
-    if(value=='https://www.cbinsights.com/research/report/amazon-across-financial-services-fintech/'):
+    if(n_clicks is None):
+        return
+    
+    if(value==cached_url):
         with open('cached_output.pkl','rb') as fid:
            output = pickle.load(fid)
     else:
