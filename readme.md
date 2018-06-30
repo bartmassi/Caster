@@ -1,3 +1,18 @@
-This is code for a podcast recommender system based on article text.
+This is a system that recommends podcasts based on the contents of articles using natural-language processing. Specifically, articles are transformed using word2vec (https://arxiv.org/abs/1301.3781), and compared to representations of podcasts in the same vector space.
 
-Much of the code in this repository is currently devoted to scraping (step0 - step2). The remainder is devoted to cleaning (step3) and analyzing/implementing the model (step4). 
+The code in this repository falls into two categories: scraping tools to re-build the podcast database, and class definitions/web code (written with Dash) to run the website. 
+
+All code is freely available to be distributed and modified, but credit (either by comment or citation) is appreciated.
+
+====================SCRAPING TOOLS
+
+All scraping tools in this repository are Jupyter notebooks. The scrape starts with iTunes_Scraping.ipynb, which combs iTunes for the titles of every podcast in their library, and then queries the iTunes API in order to get the URL of each podcast's RSS feeds where episodes are hosted. FeedCrawle scrapes the RSS feeds of each podcast to get episode descriptions. Finally, FeedCleaner processes the episode descriptions and generates a word2vec representation of each podcast. 
+
+
+====================WEBSITE TOOLS
+
+In order to run the website, two files are necessary: a database containing the podcast metadata and word2vec representations, and a trained word2vec model. One possible source is google's pre-trained model (https://code.google.com/archive/p/word2vec/). 
+
+The main file for the site is caster_site.py. This will run the code for displaying the website and handling user input. There are two important classes for getting this site to run: PodcastDB.py, and Cleaner.py. The former is a class for interfacing with the podcast database, and the latter is a class that preprocesses text. The 
+
+
