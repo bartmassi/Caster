@@ -2,7 +2,7 @@ This is a system that recommends podcasts based on the contents of articles usin
 
 The code in this repository falls into three categories: scraping tools to re-build the podcast database, class definitions/web code (written with Dash) to run the website, and analytical tools to validate the approach used to recommend podcasts.
 
-All code is freely available to be distributed and modified, but credit (either by comment or citation) is appreciated.
+All code is freely available to be distributed and modified, but credit (either by comment or citation) is appreciated!
 
 ====================SCRAPING TOOLS
 
