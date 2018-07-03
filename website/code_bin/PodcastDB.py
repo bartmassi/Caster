@@ -60,17 +60,17 @@ class PodcastDB:
         transformed_word = self._evaluate(word)
         
         if(verbose):
-            print('Input transformed')
+            #print('Input transformed')
         
         #ADD SQL QUERY HERE
         
         #Find most similar podcasts, and include a similarity metric.
         output = self.podcastdb.iloc[self.__compare(transformed_word).argsort()[:n_outputs]]
         if(verbose):
-            print('Compared to database')
+            #print('Compared to database')
         output['similarity'] = [self.comparator(transformed_word,v) for v in output['w2v'].get_values()]
         if(verbose):
-            print('output returned')
+            #print('output returned')
         return output
         #return [self.podcastdb.loc[self.podcastdb['collectionId']==thisid] for thisid in bestID]
     
@@ -81,22 +81,22 @@ class PodcastDB:
         #find the best podcasts, evaluate input
         pc_match = self.search(word,n_outputs,verbose=verbose)
         if(verbose):
-            print('Evaluate input again')
+            #print('Evaluate input again')
         u = self._evaluate(self.cleaner.preprocess_input(word,rep_dash=True))
         
         if(verbose):
-            print('Getting episodes')
+            #print('Getting episodes')
         #get the episodes associated with the best podcasts
         ep_data = [self._get_eps(pc_match.iloc[i]['feedUrl']) for i in range(0,len(pc_match))] 
         if(verbose):
-            print('Episodes obtained. cleaning...')
+            #print('Episodes obtained. cleaning...')
         #vectorize each episode
         ep_vec = [[self._evaluate(self.cleaner.preprocess_input(eps['entries'][i]['content'][0]['value'])) 
                    for i in range(0,min([n_most_recent,len(eps['entries'])]))] for eps in ep_data]
         #Get the closest matching eps.
         sorted_eps = [np.array([self.comparator(u,v) for v in ev]).argsort()[:n_outputs] for ev in ep_vec]
         if(verbose):
-            print('Episodes cleaned.')
+            #print('Episodes cleaned.')
         
         #return the data for the best eps
         return pc_match, [[ep_data[i]['entries'][j] for j in sorted_eps[i]]
@@ -108,7 +108,7 @@ class PodcastDB:
         try:
             return fp.parse(url)
         except:
-            print('Error on ' + url)
+            #print('Error on ' + url)
             return (url,None)
     
     #apply internal word2vec model to a single word. 

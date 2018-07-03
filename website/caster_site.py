@@ -66,7 +66,7 @@ word2vec = gensim.models.KeyedVectors.load_word2vec_format(floc+modelfname, bina
 with open(floc+dbname,'rb') as fid:
     podcastdb = PodcastDB.PodcastDB(fid=fid,model=word2vec)
 
-print('Model loaded!')
+#print('Model loaded!')
 #%%
 #Render website structures. 
 app = dash.Dash()
