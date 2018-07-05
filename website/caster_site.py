@@ -16,10 +16,9 @@ NUM_CHARACTER_DISPLAY = 95#Size of episode title string, including padding.
 cached_url = 'https://www.cbinsights.com/research/report/amazon-across-financial-services-fintech/'
 #%%
 
-#This fetches the article information from the URL using the newspaper package.
-#title_only flag controls whether embeddings are evaluated on entire article body, or just title.
-def generateArticleInput(url,title_only=True):
-    
+def generateArticleInput(url,title_only=True):   
+    '''This fetches the article information from the URL using the newspaper package.
+    title_only flag controls whether embeddings are evaluated on entire article body, or just title.'''
     article = Article(url)
     article.download()
     article.parse()
@@ -29,16 +28,17 @@ def generateArticleInput(url,title_only=True):
     else:
         return article.text
 
-#Determines how similar podcast is to input, based on vector similarities. 
-#Compares podcast cosine distance to an empirical distribution of distances between article titles
-#and podcast vectors, using a database of articles downloaded from Kaggle.
-#Default mean (sim mean) and standard dev (simstd) are empirical values.
+
 def determine_similarity(sim_score,simmean=0.5473,simstd=0.1038):
+    '''#Determines how similar podcast is to input, based on vector similarities. 
+    Compares podcast cosine distance to an empirical distribution of distances between article titles
+    and podcast vectors, using a database of articles downloaded from Kaggle.
+    Default mean (sim mean) and standard dev (simstd) are empirical values.'''
     
+    # compute the score relative to "population distribution"
     z_score = (sim_score - simmean)/simstd
     
     #Determine appropriate output based on similarity
-    
     if(z_score <= -2):
         sim_statement = "Very similar"
     elif(z_score <= -1):
@@ -101,11 +101,11 @@ app.css.append_css({"external_url": "https://codepen.io/chriddyp/pen/brPBPO.css"
 
 #%%
 
-#This function returns the episodes formatted in a pretty(ish) way. 
-#The majority of the code below is to format the output in the appropriate way.
-#The call to the model is at the very top.
 def update_output(n_clicks,value):
     
+    '''This function returns the episodes formatted in a pretty(ish) way. 
+    The majority of the code below is to format the output in the appropriate way.
+    The call to the model is at the very top.'''
     if(n_clicks is None):
         return 'Paste a link to a news article!'
     
