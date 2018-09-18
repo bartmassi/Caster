@@ -4,6 +4,7 @@ The code in this repository falls into three categories: scraping tools to re-bu
 
 All code is freely available to be distributed and modified, but credit (either by comment or citation) is appreciated!
 
+
 ====================SCRAPING TOOLS
 
 All scraping tools in this repository are Jupyter notebooks. The scrape starts with iTunes_Scraping.ipynb, which combs iTunes for the titles of every podcast in their library, and then queries the iTunes API in order to get the URL of each podcast's RSS feeds where episodes are hosted. FeedCrawler.ipynb scrapes the RSS feeds of each podcast to get episode descriptions. Finally, FeedCleaner.ipynb processes the episode descriptions and generates a word2vec representation of each podcast. 
